@@ -1,0 +1,118 @@
+{% extends "::base.html.twig" %}
+{% set constReun = "" %}
+{% set id = 1 %}
+{% block body %}
+    <div class="container" id="reuns">
+        {% for reunion in reunions %}
+            {% if constReun != reunion.reun %}
+                <h3 class="text-left">
+                    {% if reunion.reun matches '/^\\d+$/' %}R{{ reunion.reun }} {{ reunion.hippo }}
+                    {% else %}
+                        {{ reunion.reun }}
+                    {% endif %}
+                </h3>
+                <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Prix</th>
+                    <th>Type</th>
+                    <th>Gains</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% set constReun = reunion.reun %}
+            {% endif %}
+            <tr>
+                <th>{{ id }}</th>
+                <th>{{ reunion.prixnom }}</th>
+                <th>{{ reunion.prix }}</th>
+                <th>{{ reunion.typec }}</th>
+                <th>{{ reunion.cheque }}</th>
+            </tr>
+            {% set id = id +1 %}
+            {% if loop.index == reunions|length %}
+                </tbody>
+                </table>
+            {% elseif loop.index + 1 < reunions|length and reunion.reun != reunions[loop.index].reun %}
+                {% set id = 1 %}
+                </tbody>
+                </table>
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            var $dateReunion = $('#date-reunion');
+
+            $dateReunion.on('change',function () {
+                if($(this).val()){
+                    $.ajax({
+                        url:"{{ path('reunsAjx') }}",
+                        type: 'get',
+                        data: "date=" + $dateReunion.val(),
+                        dataType: 'json',
+                        success: function(json){
+                            var constReun = "";
+                            var id = 1;
+                            var block = "";
+                            var $blockReuns = $('#reuns');
+                            $blockReuns.empty();
+                            $('#date-choisi').text($dateReunion.val());
+                            for(var key in json){
+                                var reun = json[key];
+                                if(reun['reun'] !== constReun){
+                                    var nomReun = "";
+                                    var reg = new RegExp(/^\d+$/);
+                                    if(reg.test(reun['reun'])){
+                                        nomReun += 'R' + reun['reun'] + ' ' + reun['hippo'];
+                                    }
+                                    else {
+                                        nomReun = reun['reun'];
+                                    }
+                                    block += '<h3 class="text-left">\n' +
+                                        nomReun +
+                                    '                </h3>\n' +
+                                    '                <table class="table table-bordered">\n' +
+                                    '                <thead>\n' +
+                                    '                <tr>\n' +
+                                    '                    <th>#</th>\n' +
+                                    '                    <th>Nom</th>\n' +
+                                    '                    <th>Prix</th>\n' +
+                                    '                    <th>Type</th>\n' +
+                                    '                    <th>Gains</th>\n' +
+                                    '                </tr>\n' +
+                                    '                </thead>\n' +
+                                    '                <tbody>';
+                                    constReun = reun['reun'];
+                                }
+                                block += '<tr>\n' +
+                                    '                <th>' + id + '</th>\n' +
+                                    '                <th>' + reun['prixnom'] + '</th>\n' +
+                                    '                <th>' + reun['prix'] + '</th>\n' +
+                                    '                <th>' + reun['typec'] + '</th>\n' +
+                                    '                <th>' + reun['cheque'] + '</th>\n' +
+                                    '            </tr>';
+                                id += 1;
+                                if(parseInt(key) + 1 === json.length || (parseInt(key) + 1 < json.length && reun['reun'] !== json[parseInt(key) + 1]['reun'])){
+                                    id = 1;
+                                    block += '</tbody>\n' +
+                                        '                </table>';
+                                }
+                            }
+
+                            if(block === ""){
+                                block = "<h3 class='text-center'>Aucune réunion à cette date<h3>"
+                            }
+                            $blockReuns.append(block);
+                        }
+                    });
+                }
+            })
+        });
+    </script>
+{% endblock %}

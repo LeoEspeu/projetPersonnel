@@ -1,0 +1,30 @@
+{% extends "::base.html.twig" %}
+
+{% block body %}
+    <div class="mt-4 text-center">
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <strong>
+                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                <a href="{{ path('fos_user_security_logout') }}">
+                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                </a>
+            </strong>
+        {% endif %}
+    </div>
+    <br>
+    {% if app.request.hasPreviousSession %}
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="flash-{{ type }} container">
+                    <p class="text-primary">{{ message }}</p>
+                </div>
+                <br>
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+
+    <div class="container mt-4">
+        {% block fos_user_content %}
+        {% endblock fos_user_content %}
+    </div>
+{% endblock %}

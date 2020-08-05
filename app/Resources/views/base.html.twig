@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        {% stylesheets '@bootstrap_css' %}
+            <link rel="stylesheet" href="{{ asset_url }}"/>
+        {% endstylesheets %}
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{{ path("HomeIndex") }}">
+                Accueil
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-left">
+                <li>
+                    <p id="date-choisi" class="navbar-text">
+                        {{ 'now' | date('Y-m-d') }}
+                    </p>
+                </li>
+                {% if app.user and path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) == path("HomeIndex") %}
+                    <li>
+                        <input type="date" id="date-reunion" class="navbar-text"
+                               value="{{ 'now' | date('Y-m-d') }}"/>
+                    </li>
+                {% endif %}
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                {% if app.user %}
+                    <li>
+                        <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('fos_user_profile_edit') }}">Mettre à jour votre profil</a>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+{% block body %}{% endblock %}
+{% block javascripts %}
+    {% javascripts
+        '@jquery'
+        '@bootstrap_js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+</body>
+</html>

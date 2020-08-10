@@ -19,6 +19,7 @@
                     <th>Prix</th>
                     <th>Type</th>
                     <th>Gains</th>
+                    <th>Détails</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -30,6 +31,7 @@
                 <th>{{ reunion.prix }}</th>
                 <th>{{ reunion.typec }}</th>
                 <th>{{ reunion.cheque }}</th>
+                <th class="text-center"><a href="{{ path('CourseIndex',{'reunion':reunion.id}) }}" class="text-info"><i class="fas fa-info-circle"></i></a></th>
             </tr>
             {% set id = id +1 %}
             {% if loop.index == reunions|length %}
@@ -85,6 +87,7 @@
                                     '                    <th>Prix</th>\n' +
                                     '                    <th>Type</th>\n' +
                                     '                    <th>Gains</th>\n' +
+                                    '                    <th>Détails</th>\n' +
                                     '                </tr>\n' +
                                     '                </thead>\n' +
                                     '                <tbody>';
@@ -96,6 +99,7 @@
                                     '                <th>' + reun['prix'] + '</th>\n' +
                                     '                <th>' + reun['typec'] + '</th>\n' +
                                     '                <th>' + reun['cheque'] + '</th>\n' +
+                                    '                <th class="text-center"><a href="./course/' + reun['id'] + '" class="text-info"><i class="fas fa-info-circle"></i></a></th>\n' +
                                     '            </tr>';
                                 id += 1;
                                 if(parseInt(key) + 1 === json.length || (parseInt(key) + 1 < json.length && reun['reun'] !== json[parseInt(key) + 1]['reun'])){

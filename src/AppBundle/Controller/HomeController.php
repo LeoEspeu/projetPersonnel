@@ -43,7 +43,7 @@ class HomeController extends Controller
                 ->getRepository('AppBundle:Caractrap')
                 ->reunByJour($currentDay->format('Y-m-d'));
             foreach ($reunsBrut as $reun) {
-                array_push($reuns, array('reun'=>$reun->getReun(),'hippo'=>$reun->getHippo(),'prixnom'=>$reun->getPrixnom(),'prix'=>$reun->getPrix(),'typec'=>$reun->getTypec(),'cheque'=>$reun->getCheque()));
+                array_push($reuns, array('reun'=>$reun->getReun(),'hippo'=>$reun->getHippo(),'prixnom'=>$reun->getPrixnom(),'prix'=>$reun->getPrix(),'typec'=>$reun->getTypec(),'cheque'=>$reun->getCheque(),'id'=>$reun->getId()));
             }
             dump($reuns);
             $response->setStatusCode(200);

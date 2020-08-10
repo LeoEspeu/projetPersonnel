@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Hippo
  *
- * @ORM\Table(name="hippo", uniqueConstraints={@ORM\UniqueConstraint(name="id_2", columns={"id"})}, indexes={@ORM\Index(name="id", columns={"id"}), @ORM\Index(name="plat_piste", columns={"plat"}), @ORM\Index(name="trot_piste", columns={"trot"}), @ORM\Index(name="corde_piste", columns={"corde"}), @ORM\Index(name="obs_piste", columns={"obstacle"}), @ORM\Index(name="pays", columns={"pays"})})
+ * @ORM\Table(name="hippo", uniqueConstraints={@ORM\UniqueConstraint(name="id_2", columns={"id"})}, indexes={@ORM\Index(name="plat_piste", columns={"plat"}), @ORM\Index(name="trot_piste", columns={"trot"}), @ORM\Index(name="corde_piste", columns={"corde"}), @ORM\Index(name="obs_piste", columns={"obstacle"}), @ORM\Index(name="pays", columns={"pays"})})
  * @ORM\Entity
  */
 class Hippo
@@ -29,42 +29,30 @@ class Hippo
     private $hippo;
 
     /**
-     * @var \TypePiste
+     * @var int|null
      *
-     * @ORM\ManyToOne(targetEntity="TypePiste")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="corde", referencedColumnName="id")
-     * })
-     */
-    private $corde;
-
-    /**
-     * @var \TypePiste
-     *
-     * @ORM\ManyToOne(targetEntity="TypePiste")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="obstacle", referencedColumnName="id")
-     * })
-     */
-    private $obstacle;
-
-    /**
-     * @var \Pays
-     *
-     * @ORM\ManyToOne(targetEntity="Pays")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="pays", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="pays", type="integer", nullable=true)
      */
     private $pays;
 
     /**
-     * @var \TypePiste
+     * @var int|null
      *
-     * @ORM\ManyToOne(targetEntity="TypePiste")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="plat", referencedColumnName="id")
-     * })
+     * @ORM\Column(name="trot", type="integer", nullable=true)
+     */
+    private $trot;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="obstacle", type="integer", nullable=true)
+     */
+    private $obstacle;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="plat", type="integer", nullable=true)
      */
     private $plat;
 
@@ -73,10 +61,10 @@ class Hippo
      *
      * @ORM\ManyToOne(targetEntity="TypePiste")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="trot", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="corde", referencedColumnName="id")
      * })
      */
-    private $trot;
+    private $corde;
 
 
 }

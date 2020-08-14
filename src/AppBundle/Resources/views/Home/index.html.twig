@@ -58,6 +58,10 @@
                         type: 'get',
                         data: "date=" + $dateReunion.val(),
                         dataType: 'json',
+                        contentType:'application/json; charset=utf-8',
+                        error:function(req, err){
+                            alert('erreur: ' + err);
+                        },
                         success: function(json){
                             var constReun = "";
                             var id = 1;

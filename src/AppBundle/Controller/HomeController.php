@@ -27,7 +27,6 @@ class HomeController extends Controller
 
     /**
      * @Route("/reunions/ajx", name="reunsAjx")
-     * @param Request $request
      * @Method({"GET"})
      */
     public function ajxReunionAction(Request $request)
@@ -45,7 +44,6 @@ class HomeController extends Controller
             foreach ($reunsBrut as $reun) {
                 array_push($reuns, array('reun'=>$reun->getReun(),'hippo'=>$reun->getHippo(),'prixnom'=>$reun->getPrixnom(),'prix'=>$reun->getPrix(),'typec'=>$reun->getTypec(),'cheque'=>$reun->getCheque(),'id'=>$reun->getId()));
             }
-            dump($reuns);
             $response->setStatusCode(200);
             $response->setContent(json_encode($reuns));
 

@@ -1,4 +1,47 @@
 {% extends "::base.html.twig" %}
 
 {% block body %}
+    <div class="container container-fluid">
+        <div class="container grid-list-md">
+            <div class="layout row wrap fluid" style="display: flex">
+                <div class="flex sm4">
+                    <h3><strong>{% if course.reun matches '/^\\d+$/' %}{{ course.hippo }}
+                            {% else %}
+                                {{ course.reun }}
+                            {% endif %}
+                            / {{ course.jour }} / {{ course.heure|date('H:i:s') }}
+                        </strong>
+                    </h3>
+                    <h4><strong>{{ course.prixnom }} {% if course.quinte == 1 %}<span style="color: #d58512">Q+</span>{% endif %}</strong></h4>
+                    <h4>
+                        <strong>{% if course.reun matches '/^\\d+$/' %}R{{ course.reun }}
+                            {% else %}
+                                {{ course.reun }}
+                            {% endif %}
+                             / C{{ course.prix }}
+                        </strong>
+                    </h4>
+                    <h4 class="flex sm4">
+                        <strong>
+                            {{ course.typec }} {{ course.dist }}m {{ course.cheque }}
+                        </strong>
+                    </h4>
+                </div>
+                <div class="flex sm4" style="padding-top: 20px; padding-left: 50px">
+                    <p>{{ course.meteo }}{% if course.temperature != 0 %} / {{ course.temperature }}°c{% endif %}</p>
+                    {% if course.nebulositelibellecourt != '' %}<p>{{ course.nebulositelibellecourt }} / Vent: {{ course.forcevent }} {{ course.directionvent }}</p>{% endif %}
+                    <p>{{ course.partant }} Partants</p>
+                    {% if course.age != '' %}<p>{{ course.age }} {% if course.age == 1 %}an {% else %}ans{% endif %}{% if course.sex != '' %} / {{ course.sex }}{% endif %}</p>{% endif %}
+                    {% if course.amat != '' %}<p>{{ course.amat }}</p>{% endif %}
+                </div>
+                <div class="flex sm4" style="padding-top: 20px; padding-left: 100px">
+                    {% if course.natpis != '' %}<p>{{ course.natpis }}</p>{% endif %}
+                    {% if course.handi != '' %}<p>{{ course.handi }}</p>{% endif %}
+                    {% if course.autos != '' %}<p>{{ course.autos }}</p>{% endif %}
+                    {% if course.reclam != '' %}<p>{{ course.reclam }}</p>{% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

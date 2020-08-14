@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Cachedate
  *
  * @ORM\Table(name="cachedate", indexes={@ORM\Index(name="chejour", columns={"cheval", "jour"}), @ORM\Index(name="numcourse", columns={"numcourse"}), @ORM\Index(name="comp", columns={"comp"}), @ORM\Index(name="jocjou", columns={"jockey", "jour"}), @ORM\Index(name="cheval", columns={"cheval"}), @ORM\Index(name="jour", columns={"jour"}), @ORM\Index(name="entjou", columns={"entraineur", "jour"}), @ORM\Index(name="propjour", columns={"proprietaire", "jour"}), @ORM\Index(name="dist", columns={"dist"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CachedateRepository")
  */
 class Cachedate
 {

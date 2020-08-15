@@ -20,6 +20,16 @@
                             {% endif %}
                              / C{{ course.prix }}
                         </strong>
+                        {% if clCourse[0].cl != "" %}
+                            <span style="color: red; margin-left: 10px">
+                                {% for classement in clCourse %}
+                                    {% if classement.cl != "dai" and classement.cl != "NP" and loop.index <= 5 %}
+                                        {% if loop.index != 1 %}-{% endif %}
+                                        {{ classement.numero }}
+                                    {% endif %}
+                                {% endfor %}
+                            </span>
+                        {% endif %}
                     </h4>
                     <h4 class="flex sm4">
                         <strong>
@@ -43,5 +53,85 @@
             </div>
         </div>
     </div>
+    <div class="container-fluid text-center" style="margin-top: 100px">
+        <table class="table table-bordered display" id="table-course">
+            <thead>
+            <tr>
+                <th>Cl</th>
+                <th>Numéro</th>
+                <th>Cheval</th>
+                <th>Récense</th>
+                <th>Rapport</th>
+                <th>Déférré ou oeillères</th>
+                <th>Jockey</th>
+                <th>Entraineur</th>
+                <th>Sexe</th>
+                <th>Age</th>
+                <th>Corde</th>
+                <th>Poids monté</th>
+                <th>Ecart</th>
+                <th>Distance</th>
+                <th>Réduction kilométrique</th>
+                <th>Temps total</th>
+                <th>Taux de réclamation</th>
+                <th>Musique</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for classement in clCourse %}
+                <tr>
+                    <td>{{ classement.cl }}</td>
+                    <td>{{ classement.numero }}</td>
+                    <td>{{ classement.cheval }}</td>
+                    <td>{{ classement.recence }}</td>
+                    <td></td>
+                    <td>{% if classement.defoeilprec == '0' %}
+                            {{ 'Non' }}
+                        {% else %}
+                            {{ 'Oui' }}
+                        {% endif %}
+                    </td>
+                    <td>{{ classement.jockey }}</td>
+                    <td>{{ classement.entraineur }}</td>
+                    <td>{{ classement.sexe }}</td>
+                    <td>{{ classement.age }}</td>
+                    <td>{{ classement.corde }}</td>
+                    <td>{{ classement.poidmont }}</td>
+                    <td>{{ classement.ecar }}</td>
+                    <td>{{ classement.dist }}</td>
+                    <td>{{ classement.redkm }}</td>
+                    <td>{{ classement.tempstot }}</td>
+                    <td>{{ classement.txreclam }}</td>
+                    <td>{{ classement.musiqueche }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript" src="https://cdn.datatables.net/tabletools/2.2.4/js/dataTables.tableTools.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/tabletools/2.2.2/swf/copy_csv_xls_pdf.swf"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.1.2/js/buttons.print.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#table-course').DataTable({
+                paging: false,
+                "scrollX": true,
+                dom: 'Bfrtip',
+                buttons: ['copy','csv','excel','pdf','print']
+            });
+        });
+    </script>
 {% endblock %}

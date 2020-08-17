@@ -17,7 +17,7 @@ class CaractrapRepository extends EntityRepository
         $reuns = $this->createQueryBuilder('c')
             ->addSelect('c')
             ->where('c.jour = :j')
-            ->orderBy('c.reun,c.heure,c.prix')
+            ->orderBy('c.reun,c.prix,c.heure')
             ->setParameter('j',$jour);
         return $reuns->getQuery()->getResult();
     }

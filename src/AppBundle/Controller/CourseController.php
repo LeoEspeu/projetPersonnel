@@ -18,10 +18,7 @@ class CourseController extends Controller
      */
     public function indexAction(Caractrap $reunion)
     {
-        $clCourse = $this
-            ->getDoctrine()
-            ->getRepository('AppBundle:Cachedate')
-            ->clByCourse($reunion->getId());
+        $clCourse = $this->container->get('course.manager')->clCourseOrdonnee($reunion->getId());
 
         return $this->render("AppBundle:Course:course.html.twig", array(
             'course' => $reunion,

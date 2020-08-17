@@ -19,7 +19,7 @@ class CachedateRepository extends EntityRepository
         $course = $this->createQueryBuilder('c')
             ->addSelect('c')
             ->where('c.numcourse = :n')
-            ->orderBy('c.cl,c.numero')
+            ->orderBy("c.tempstot,c.cl")
             ->setParameter('n',$idCourse);
         return $course->getQuery()->getResult();
     }

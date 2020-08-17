@@ -27,7 +27,7 @@
             {% endif %}
             <tr>
                 <th>{{ id }}</th>
-                <th>{{ reunion.prixnom }}</th>
+                <th>{{ reunion.prixnom }} {% if reunion.quinte == 1 %}<span style="color: #d58512">Q+</span>{% endif %}</th>
                 <th>{{ reunion.prix }}</th>
                 <th>{{ reunion.typec }}</th>
                 <th>{{ reunion.cheque }}</th>

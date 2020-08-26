@@ -22,12 +22,7 @@
                         </strong>
                         {% if clCourse[0].cl != "" %}
                             <span style="color: red; margin-left: 10px">
-                                {% for classement in clCourse %}
-                                    {% if classement.cl != "dai" and classement.cl != "NP" and loop.index <= 5 %}
-                                        {% if loop.index != 1 %}-{% endif %}
-                                        {{ classement.numero }}
-                                    {% endif %}
-                                {% endfor %}
+                                {{ course.arriv }}
                             </span>
                         {% endif %}
                     </h4>
@@ -51,9 +46,16 @@
                     {% if course.reclam != '' %}<p>{{ course.reclam }}</p>{% endif %}
                 </div>
             </div>
+            <div class="layout row wrap">
+                <button id="infos" type="button" class="btn btn-warning" title="Infos"><span>Infos</span></button>
+                <button id="cheval" type="button" class="btn btn-primary" title="Infos Cheval"><span>Cheval</span></button>
+                <button id="jockey" type="button" class="btn btn-primary" title="Infos Jockey"><span>Jockey</span></button>
+                <button id="couple" type="button" class="btn btn-primary" title="Infos Couple"><span>Couple</span></button>
+                <button id="entraineur" type="button" class="btn btn-primary" title="Infos Entraineur"><span>Entraineur</span></button>
+            </div>
         </div>
     </div>
-    <div class="container-fluid text-center" style="margin-top: 100px">
+    <div class="container-fluid text-center" id="div-course" style="margin-top: 100px">
         <table class="table table-bordered display" id="table-course">
             <thead>
             <tr>
@@ -85,10 +87,10 @@
                     <td>{{ classement.cheval }}</td>
                     <td>{{ classement.recence }}</td>
                     <td></td>
-                    <td>{% if classement.defoeilprec == '0' %}
+                    <td>{% if classement.defoeil == '0' %}
                             {{ 'Non' }}
                         {% else %}
-                            {{ 'Oui' }}
+                            {{ classement.defoeil }}
                         {% endif %}
                     </td>
                     <td>{{ classement.jockey }}</td>
@@ -115,14 +117,307 @@
     {{ parent() }}
 
     <script>
+
         $(document).ready(function() {
-            $('#table-course').DataTable({
-                paging: false,
-                "scrollX": true,
-                "scrollY": "700px",
-                "scrollCollapse": true,
-                dom: 'Bfrtip',
-                buttons: ['copy','csv','excel','pdf','print']
+            genererDataTable();
+        });
+
+        $(document).ready(function() {
+
+            $( ":button" ).on('click', function () {
+                $('.btn-warning').removeClass('btn-warning').addClass('btn-primary');
+                $(this).removeClass('btn-primary').addClass('btn-warning');
+
+                var $id = $(this).attr("id");
+
+                $.ajax({
+                    url:"{{ path('courseAjx') }}",
+                    type: 'get',
+                    data: "id=" + {{ course.id }},
+                    dataType: 'json',
+                    contentType:'application/json; charset=utf-8',
+                    error:function(req, err){
+                        alert('erreur: ' + err);
+                    },
+                    success: function(json){
+                        var $tableCourse = $('#div-course');
+
+                        switch ($id) {
+                            case 'infos':
+                                var block = '<table class="table table-bordered display" id="table-course">' +
+                                    '<thead>\n' +
+                                    '            <tr>\n' +
+                                    '                <th>Cl</th>\n' +
+                                    '                <th>Numéro</th>\n' +
+                                    '                <th>Cheval</th>\n' +
+                                    '                <th>Récense</th>\n' +
+                                    '                <th>Rapport</th>\n' +
+                                    '                <th>Déférré ou oeillères</th>\n' +
+                                    '                <th>Jockey</th>\n' +
+                                    '                <th>Entraineur</th>\n' +
+                                    '                <th>Sexe</th>\n' +
+                                    '                <th>Age</th>\n' +
+                                    '                <th>Corde</th>\n' +
+                                    '                <th>Poids monté</th>\n' +
+                                    '                <th>Ecart</th>\n' +
+                                    '                <th>Distance</th>\n' +
+                                    '                <th>Réduction kilométrique</th>\n' +
+                                    '                <th>Temps total</th>\n' +
+                                    '                <th>Taux de réclamation</th>\n' +
+                                    '                <th>Musique</th>\n' +
+                                    '            </tr>\n' +
+                                    '            </thead>\n' +
+                                    '            <tbody>';
+
+                                for(var key in json){
+                                    var cl = json[key];
+                                    var defoiel = cl['defoeil'] == '0' ? 'Non' : cl['defoeil'];
+                                    block += '<tr>\n' +
+                                        '                <th>' + cl['cl'] + '</th>\n' +
+                                        '                <th>' + cl['numero'] + '</th>\n' +
+                                        '                <th>' + cl['cheval'] + '</th>\n' +
+                                        '                <th>' + cl['recense'] + '</th>\n' +
+                                        '                <th>' + cl['rapport'] + '</th>\n' +
+                                        '                <th>' + defoiel + '</th>\n' +
+                                        '                <th>' + cl['jockey'] + '</th>\n' +
+                                        '                <th>' + cl['entraineur'] + '</th>\n' +
+                                        '                <th>' + cl['sexe'] + '</th>\n' +
+                                        '                <th>' + cl['age'] + '</th>\n' +
+                                        '                <th>' + cl['corde'] + '</th>\n' +
+                                        '                <th>' + cl['poidmont'] + '</th>\n' +
+                                        '                <th>' + cl['ecart'] + '</th>\n' +
+                                        '                <th>' + cl['dist'] + '</th>\n' +
+                                        '                <th>' + cl['redkm'] + '</th>\n' +
+                                        '                <th>' + cl['tempstot'] + '</th>\n' +
+                                        '                <th>' + cl['txreclam'] + '</th>\n' +
+                                        '                <th>' + cl['musiqueche'] + '</th>\n' +
+                                        '            </tr>';
+                                }
+
+                                block += '</tbody>' +
+                                    '</table>';
+
+                                $tableCourse.empty();
+                                $tableCourse.append(block);
+                                genererDataTable();
+                                break;
+                            case 'cheval':
+                                var block = '<table class="table table-bordered display" id="table-course">' +
+                                    '<thead>\n' +
+                                    '            <tr>\n' +
+                                    '                <th>Cl</th>\n' +
+                                    '                <th>Numéro</th>\n' +
+                                    '                <th>Cheval</th>\n' +
+                                    '                <th>Nombre de Courses courues</th>\n' +
+                                    '                <th>Nombre de Courses gagnées</th>\n' +
+                                    '                <th>Nombre de Courses placées</th>\n' +
+                                    '                <th>% Courses Gagnées sur cet hippodrome</th>\n' +
+                                    '                <th>% Courses placées sur cet hippodrome</th>\n' +
+                                    '                <th>Courses Courues sur cet hippodrome</th>\n' +
+                                    '                <th>Gains carrière</th>\n' +
+                                    '                <th>Gains victoire</th>\n' +
+                                    '                <th>Gains placé</th>\n' +
+                                    '                <th>Gains année en cours</th>\n' +
+                                    '                <th>Gains année précédente</th>\n' +
+                                    '                <th>Jument pleine</th>\n' +
+                                    '                <th>Inédit</th>\n' +
+                                    '                <th>Record général</th>\n' +
+                                    '                <th>Handicap distance</th>\n' +
+                                    '                <th>Handicap poids</th>\n' +
+                                    '                <th>Père</th>\n' +
+                                    '                <th>Mère</th>\n' +
+                                    '            </tr>\n' +
+                                    '            </thead>\n' +
+                                    '            <tbody>';
+
+                                for(var key in json){
+                                    var cl = json[key];
+                                    block += '<tr>\n' +
+                                        '                <th>' + cl['cl'] + '</th>\n' +
+                                        '                <th>' + cl['numero'] + '</th>\n' +
+                                        '                <th>' + cl['cheval'] + '</th>\n' +
+                                        '                <th>' + cl['cc'] + '</th>\n' +
+                                        '                <th>' + cl['cg'] + '</th>\n' +
+                                        '                <th>' + cl['cp'] + '</th>\n' +
+                                        '                <th>' + cl['pourccgh'] + '</th>\n' +
+                                        '                <th>' + cl['pourccph'] + '</th>\n' +
+                                        '                <th>' + cl['cch'] + '</th>\n' +
+                                        '                <th>' + cl['gc'] + '</th>\n' +
+                                        '                <th>' + cl['gv'] + '</th>\n' +
+                                        '                <th>' + cl['gp'] + '</th>\n' +
+                                        '                <th>' + cl['ga'] + '</th>\n' +
+                                        '                <th>' + cl['gap'] + '</th>\n' +
+                                        '                <th>' + cl['jp'] + '</th>\n' +
+                                        '                <th>' + cl['in'] + '</th>\n' +
+                                        '                <th>' + cl['rg'] + '</th>\n' +
+                                        '                <th>' + cl['hd'] + '</th>\n' +
+                                        '                <th>' + cl['hp'] + '</th>\n' +
+                                        '                <th>' + cl['pere'] + '</th>\n' +
+                                        '                <th>' + cl['mere'] + '</th>\n' +
+                                        '            </tr>';
+                                }
+
+                                block += '</tbody>' +
+                                    '</table>';
+
+                                $tableCourse.empty();
+                                $tableCourse.append(block);
+                                genererDataTable();
+                                break;
+                            case 'jockey':
+                                var block = '<table class="table table-bordered display" id="table-course">' +
+                                    '<thead>\n' +
+                                    '            <tr>\n' +
+                                    '                <th>Cl</th>\n' +
+                                    '                <th>Numéro</th>\n' +
+                                    '                <th>Cheval</th>\n' +
+                                    '                <th>Jockey</th>\n' +
+                                    '                <th>Nombre de Courses courues</th>\n' +
+                                    '                <th>Nombre de Courses gagnées</th>\n' +
+                                    '                <th>Nombre de Courses placées</th>\n' +
+                                    '                <th>% Courses Gagnées</th>\n' +
+                                    '                <th>% Courses placées</th>\n' +
+                                    '                <th>% Courses Gagnées sur cet hippodrome</th>\n' +
+                                    '                <th>% Courses placées sur cet hippodrome</th>\n' +
+                                    '                <th>Courses Courues sur cet hippodrome</th>\n' +
+                                    '                <th>montès du jockey jour</th>\n' +
+                                    '                <th>courue jockey jour</th>\n' +
+                                    '                <th>victoire jockey jour</th>\n' +
+                                    '                <th>musique jockey</th>\n' +
+                                    '            </tr>\n' +
+                                    '            </thead>\n' +
+                                    '            <tbody>';
+
+                                for(var key in json){
+                                    var cl = json[key];
+                                    block += '<tr>\n' +
+                                        '                <th>' + cl['cl'] + '</th>\n' +
+                                        '                <th>' + cl['numero'] + '</th>\n' +
+                                        '                <th>' + cl['cheval'] + '</th>\n' +
+                                        '                <th>' + cl['jockey'] + '</th>\n' +
+                                        '                <th>' + cl['jc'] + '</th>\n' +
+                                        '                <th>' + cl['jv'] + '</th>\n' +
+                                        '                <th>' + cl['jp'] + '</th>\n' +
+                                        '                <th>' + cl['pourcjg'] + '</th>\n' +
+                                        '                <th>' + cl['pourcjp'] + '</th>\n' +
+                                        '                <th>' + cl['pourcjgh'] + '</th>\n' +
+                                        '                <th>' + cl['pourcjph'] + '</th>\n' +
+                                        '                <th>' + cl['jch'] + '</th>\n' +
+                                        '                <th>' + cl['jmj'] + '</th>\n' +
+                                        '                <th>' + cl['jcj'] + '</th>\n' +
+                                        '                <th>' + cl['jvj'] + '</th>\n' +
+                                        '                <th>' + cl['jmusique'] + '</th>\n' +
+                                        '            </tr>';
+                                }
+
+                                block += '</tbody>' +
+                                    '</table>';
+
+                                $tableCourse.empty();
+                                $tableCourse.append(block);
+                                genererDataTable();
+                                break;
+                            case 'couple':
+                                var block = '<table class="table table-bordered display" id="table-course">' +
+                                    '<thead>\n' +
+                                    '            <tr>\n' +
+                                    '                <th>Cl</th>\n' +
+                                    '                <th>Numéro</th>\n' +
+                                    '                <th>Cheval</th>\n' +
+                                    '                <th>Nombre course couple</th>\n' +
+                                    '                <th>Taux victoire couple</th>\n' +
+                                    '                <th>Taux place couple</th>\n' +
+                                    '                <th>Nombre victoire couple</th>\n' +
+                                    '                <th>Nombre place couple</th>\n' +
+                                    '                <th>Nombre course couple hippo</th>\n' +
+                                    '                <th>Taux victoire couple hippo</th>\n' +
+                                    '                <th>Taux place couple hippo</th>\n' +
+                                    '                <th>Nombre victoire couple hippo</th>\n' +
+                                    '                <th>Nombre place couple hippo</th>\n' +
+                                    '            </tr>\n' +
+                                    '            </thead>\n' +
+                                    '            <tbody>';
+
+                                for(var key in json){
+                                    var cl = json[key];
+                                    block += '<tr>\n' +
+                                        '                <th>' + cl['cl'] + '</th>\n' +
+                                        '                <th>' + cl['numero'] + '</th>\n' +
+                                        '                <th>' + cl['cheval'] + '</th>\n' +
+                                        '                <th>' + cl['ncc'] + '</th>\n' +
+                                        '                <th>' + cl['txvc'] + '</th>\n' +
+                                        '                <th>' + cl['txpc'] + '</th>\n' +
+                                        '                <th>' + cl['nvc'] + '</th>\n' +
+                                        '                <th>' + cl['npc'] + '</th>\n' +
+                                        '                <th>' + cl['ncch'] + '</th>\n' +
+                                        '                <th>' + cl['txvch'] + '</th>\n' +
+                                        '                <th>' + cl['txpch'] + '</th>\n' +
+                                        '                <th>' + cl['nvch'] + '</th>\n' +
+                                        '                <th>' + cl['npch'] + '</th>\n' +
+                                        '            </tr>';
+                                }
+
+                                block += '</tbody>' +
+                                    '</table>';
+
+                                $tableCourse.empty();
+                                $tableCourse.append(block);
+                                genererDataTable();
+                                break;
+                            case 'entraineur':
+                                var block = '<table class="table table-bordered display" id="table-course">' +
+                                    '<thead>\n' +
+                                    '            <tr>\n' +
+                                    '                <th>Cl</th>\n' +
+                                    '                <th>Numéro</th>\n' +
+                                    '                <th>Cheval</th>\n' +
+                                    '                <th>Entraineur</th>\n' +
+                                    '                <th>Nombre courses entraineur</th>\n' +
+                                    '                <th>Victoires entraineur</th>\n' +
+                                    '                <th>Places entraineur</th>\n' +
+                                    '                <th>Taux victoire entraineur hippo</th>\n' +
+                                    '                <th>Taux place entraineur hippo</th>\n' +
+                                    '                <th>Nombre courses entraineur hippo</th>\n' +
+                                    '                <th>Monte entraineur jour</th>\n' +
+                                    '                <th>Courue entraineur jour</th>\n' +
+                                    '                <th>Victoire entraineur jour</th>\n' +
+                                    '                <th>Musique entraineur</th>\n' +
+                                    '            </tr>\n' +
+                                    '            </thead>\n' +
+                                    '            <tbody>';
+
+                                for(var key in json){
+                                    var cl = json[key];
+                                    block += '<tr>\n' +
+                                        '                <th>' + cl['cl'] + '</th>\n' +
+                                        '                <th>' + cl['numero'] + '</th>\n' +
+                                        '                <th>' + cl['cheval'] + '</th>\n' +
+                                        '                <th>' + cl['entraineur'] + '</th>\n' +
+                                        '                <th>' + cl['ecc'] + '</th>\n' +
+                                        '                <th>' + cl['ev'] + '</th>\n' +
+                                        '                <th>' + cl['ep'] + '</th>\n' +
+                                        '                <th>' + cl['txevh'] + '</th>\n' +
+                                        '                <th>' + cl['txeph'] + '</th>\n' +
+                                        '                <th>' + cl['ech'] + '</th>\n' +
+                                        '                <th>' + cl['emj'] + '</th>\n' +
+                                        '                <th>' + cl['ecj'] + '</th>\n' +
+                                        '                <th>' + cl['evj'] + '</th>\n' +
+                                        '                <th>' + cl['emusique'] + '</th>\n' +
+                                        '            </tr>';
+                                }
+
+                                block += '</tbody>' +
+                                    '</table>';
+
+                                $tableCourse.empty();
+                                $tableCourse.append(block);
+                                genererDataTable();
+                                break;
+                            default:
+                                alert('Choix indisponible');
+                        }
+                    }
+                });
             });
         });
     </script>

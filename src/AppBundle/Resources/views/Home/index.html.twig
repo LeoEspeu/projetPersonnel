@@ -97,9 +97,13 @@
                                     '                <tbody>';
                                     constReun = reun['reun'];
                                 }
+                                var reunnom = reun['prixnom'];
+                                if(reun['quinte'] == '1'){
+                                    reunnom += ' ' + '<span style="color: #d58512">Q+</span>';
+                                }
                                 block += '<tr>\n' +
                                     '                <th>' + id + '</th>\n' +
-                                    '                <th>' + reun['prixnom'] + '</th>\n' +
+                                    '                <th>' + reunnom + '</th>\n' +
                                     '                <th>' + reun['prix'] + '</th>\n' +
                                     '                <th>' + reun['typec'] + '</th>\n' +
                                     '                <th>' + reun['cheque'] + '</th>\n' +

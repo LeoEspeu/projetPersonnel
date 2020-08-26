@@ -1,0 +1,11 @@
+form input[type=text]{
+    width: 50%;
+}
+
+form input[type=password]{
+    width: 50%;
+}
+
+form input[type=email]{
+    width: 50%;
+}

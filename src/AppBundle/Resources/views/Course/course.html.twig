@@ -84,7 +84,7 @@
                 <tr>
                     <td>{{ classement.cl }}</td>
                     <td>{{ classement.numero }}</td>
-                    <td>{{ classement.cheval }}</td>
+                    <td><a href="{{ path('ChevalIndex',{'cheval':classement.id}) }}">{{ classement.cheval }}</a></td>
                     <td>{{ classement.recence }}</td>
                     <td></td>
                     <td>{% if classement.defoeil == '0' %}

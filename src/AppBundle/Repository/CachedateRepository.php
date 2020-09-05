@@ -23,4 +23,16 @@ class CachedateRepository extends EntityRepository
             ->setParameter('n',$idCourse);
         return $course->getQuery()->getResult();
     }
+
+    public function infoCheval($idCheval)
+    {
+        $cheval = $this->createQueryBuilder('i')
+            ->addSelect('i')
+            ->where('i.idche = :c')
+            ->orderBy("i.id")
+            ->setParameter('c',$idCheval)
+            ->setMaxResults(1);
+        return $cheval->getQuery()->getResult();
+    }
+
 }

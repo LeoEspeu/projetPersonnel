@@ -1,0 +1,30 @@
+{% extends "::base.html.twig" %}
+
+
+{% block body %}
+    <div class="container container-fluid">
+        <div class="container grid-list-md">
+            <div class="layout row wrap fluid" style="display: flex">
+                <div class="flex sm4">
+                    <h4><strong>{{ cheval.cheval }}</strong></h4>
+                    <h4 style="color: #d58512"><strong>{{ cheval.sexe }} {{ cheval.age }} {% if cheval.age == 1 %}an {% else %}ans{% endif %}</strong></h4>
+                </div>
+                <div class="flex sm4" style="padding-left: 50px">
+                    <h4><strong>Infos</strong></h4>
+                    <p>Père : {{ cheval.pere }}</p>
+                    <p>Mère : {{ cheval.mere }}</p>
+                    <p>Entraineur : {{ cheval.entraineur }}</p>
+                    <p>Propriétaire : {{ cheval.proprietaire }}</p>
+                </div>
+                <div class="flex sm4" style="padding-left: 100px">
+                    <h4><strong>Gains</strong></h4>
+                    <p>Carrière : {{ cheval.gainscarriere }} €</p>
+                    <p>Victoires : {{ cheval.gainsvictoires }} €</p>
+                    <p>Place : {{ cheval.gainsplace }} €</p>
+                    <p>Annee En Cours : {{ cheval.gainsanneeencours }} € </p>
+                    <p>Annee Précédente : {{ cheval.gainsanneeprecedente }} € </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

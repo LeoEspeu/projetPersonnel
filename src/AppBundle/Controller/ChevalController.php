@@ -19,9 +19,11 @@ class ChevalController extends Controller
      */
     public function chevalAction(Cachedate $cheval)
     {
-        $infoCheval = $this->getDoctrine()
-            ->getRepository('AppBundle:Cachedate')
-            ->infoCheval($cheval->getIdche())[0];
+        $rep = $this->getDoctrine()->getRepository('AppBundle:Cachedate');
+
+        $infoCheval = $rep->infoCheval($cheval->getIdche())[0];
+
+        $reussiteJockey = $rep->reussiteParJockey($cheval->getIdche());
 
         return $this->render('AppBundle:Cheval:cheval.html.twig', array(
             'cheval' => $infoCheval

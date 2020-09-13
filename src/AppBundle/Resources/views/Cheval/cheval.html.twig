@@ -8,6 +8,19 @@
                 <div class="flex sm4">
                     <h4><strong>{{ cheval.cheval }}</strong></h4>
                     <h4 style="color: #d58512"><strong>{{ cheval.sexe }} {{ cheval.age }} {% if cheval.age == 1 %}an {% else %}ans{% endif %}</strong></h4>
+                    <p style="margin-top: 130px">Réussite par jockey</p>
+                    <table class="table table-bordered display" id="table-course">
+                        <thead>
+                        <tr>
+                            <th>Jockey</th>
+                            <th>Nb courses</th>
+                            <th>Victoires</th>
+                            <th>Places</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="flex sm4" style="padding-left: 50px">
                     <h4><strong>Infos</strong></h4>
@@ -15,14 +28,28 @@
                     <p>Mère : {{ cheval.mere }}</p>
                     <p>Entraineur : {{ cheval.entraineur }}</p>
                     <p>Propriétaire : {{ cheval.proprietaire }}</p>
+                    <p style="margin-top: 40px">Réussite par hippodrome</p>
+                    <table class="table table-bordered display" id="table-course">
+                        <thead>
+                        <tr>
+                            <th>Hippo</th>
+                            <th>Nb courses</th>
+                            <th>Victoires</th>
+                            <th>Places</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="flex sm4" style="padding-left: 100px">
                     <h4><strong>Gains</strong></h4>
-                    <p>Carrière : {{ cheval.gainscarriere }} €</p>
-                    <p>Victoires : {{ cheval.gainsvictoires }} €</p>
-                    <p>Place : {{ cheval.gainsplace }} €</p>
-                    <p>Annee En Cours : {{ cheval.gainsanneeencours }} € </p>
-                    <p>Annee Précédente : {{ cheval.gainsanneeprecedente }} € </p>
+                    <p>Carrière : {{ cheval.gainscarriere * 0.01 }} €</p>
+                    <p>Victoires : {{ cheval.gainsvictoires * 0.01 }} €</p>
+                    <p>Place : {{ cheval.gainsplace * 0.01 }} €</p>
+                    <p>Annee En Cours : {{ cheval.gainsanneeencours * 0.01 }} € </p>
+                    <p>Annee Précédente : {{ cheval.gainsanneeprecedente * 0.01 }} € </p>
+                    <p>Évolution prix / année</p>
                 </div>
             </div>
         </div>

@@ -48,6 +48,7 @@ class CourseController extends Controller
                 ->clByCourse($idCourse);
             foreach ($clBrut as $position) {
                 array_push($cl, array(
+                        'id' => $position->getId(),
                         'cl' => $position->getCl(),
                         'numero' => $position->getNumero(),
                         'cheval' => $position->getCheval(),

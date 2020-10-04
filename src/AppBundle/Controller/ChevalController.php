@@ -10,7 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 /**
  * Class ChevalController
  * @package AppBundle\Controller
- * @Route("/cheval")
+ * @Route("/course/cheval")
  */
 class ChevalController extends Controller
 {

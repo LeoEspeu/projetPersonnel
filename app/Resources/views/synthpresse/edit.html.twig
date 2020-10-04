@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-center text-primary">Editer Cote : Cheval {{ synthPresse.numCheval }} - Quinté
+        du {{ synthPresse.dateCourse }} - {{ synthPresse.hippo }} - {{ synthPresse.nomCourse }}</h1>
+    <div class="container-fluid" style="margin-top: 50px">
+        {{ form_start(edit_form) }}
+        <div class="form-group">
+            {{ form_label(edit_form.cote) }}
+            {{ form_widget(edit_form.cote,{'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(edit_form.cote) }}
+        </div>
+        <input class="btn btn-default" type="submit" value="Editer"/>
+        <br>
+        <br>
+        <a class="btn btn-primary" href="{{ path('synthpresse_index') }}">Retour à la liste</a>
+        {{ form_end(edit_form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#date-choisi').text("{{ synthPresse.dateCourse }}");
+        });
+    </script>
+{% endblock %}

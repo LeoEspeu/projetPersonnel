@@ -67,6 +67,7 @@ class CourseController extends Controller
                         'tempstot' => $position->getTempstot(),
                         'txreclam' => $position->getTxreclam(),
                         'musiqueche' => $position->getMusiqueche(),
+                        'musiquept' => $position->getMusiquept(),
                         'cc' => $position->getNumcourse(),
                         'cg' => $position->getVictoirescheval(),
                         'cp' => $position->getPlacescheval(),

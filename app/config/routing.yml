@@ -1,3 +1,7 @@
+app_synth_presse:
+    resource: "@AppBundle/Controller/SynthPresseController.php"
+    type:     annotation
+
 user:
     resource: "@UserBundle/Controller/"
     type:     annotation

@@ -38,7 +38,7 @@
                 <li>
                     <p id="date-choisi" class="navbar-text">{{ 'now' | date('Y-m-d') }}</p>
                 </li>
-                {% if app.user and path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) == path("HomeIndex") %}
+                {% if app.user and path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) == path("HomeIndex") or path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')) == path("synthpresse_index") %}
                     <li>
                         <input type="date" id="date-reunion" class="navbar-text"
                                value="{{ 'now' | date('Y-m-d') }}"/>
@@ -47,6 +47,9 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if app.user %}
+                    <li>
+                        <a href="{{ path('synthpresse_index') }}">Synthèse de la presse</a>
+                    </li>
                     <li>
                         <a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a>
                     </li>

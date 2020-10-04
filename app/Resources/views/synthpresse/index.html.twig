@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 id="titre" class="text-center text-primary">
+        {% if titre != '' %}
+            Synthése de la presse du Quinté
+            du {{ dateSynth }} - {{ titre }}
+        {% endif %}
+    </h1>
+    <div class="container">
+
+        <table id="ligne-synth" class="table">
+            <thead>
+            <tr>
+                <th>Pospresse</th>
+                <th>Numcheval</th>
+                <th>Place</th>
+                <th>Cote</th>
+                <th>Editer cote</th>
+            </tr>
+            </thead>
+            <tbody id="table-synth">
+            {% for synthPresse in synthPresses %}
+                <tr>
+                    <td>{{ synthPresse.posPresse }}</td>
+                    <td>{{ synthPresse.numCheval }}</td>
+                    <td>{{ synthPresse.place }}</td>
+                    <td>{{ synthPresse.cote }}</td>
+                    <td>
+                        <a class="text-info" href="{{ path('synthpresse_edit', { 'dateCourse': synthPresse.dateCourse }) }}"><i class="fas fa-edit"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <h3 id="r-course" class='text-center'>Aucune réunion à cette date</h3>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function() {
+            if($('#table-synth').text().trim() != '')
+            {
+                $('#r-course').hide();
+            }
+            else {
+                $('#titre').hide();
+                $('#ligne-synth').hide();
+            }
+            var $dateReunion = $('#date-reunion');
+            $dateReunion.val("{{ dateSynth }}");
+            $('#date-choisi').text("{{ dateSynth }}");
+
+            $dateReunion.on('change',function () {
+                if($(this).val()){
+                    $.ajax({
+                        url:"{{ path('synthPresseAjx') }}",
+                        type: 'get',
+                        data: "date=" + $dateReunion.val(),
+                        dataType: 'json',
+                        contentType:'application/json; charset=utf-8',
+                        error:function(req, err){
+                            alert('erreur: ' + err);
+                        },
+                        success: function(json){
+                            var constReun = "";
+                            var id = 1;
+                            var block = "";
+                            var $blockSynth = $('#table-synth');
+                            var $titre = $('#titre');
+                            $titre.empty();
+                            $blockSynth.empty();
+                            $('#date-choisi').text($dateReunion.val());
+                            for(var key in json){
+                                var synth = json[key];
+
+                                if($titre.is(':empty')){
+                                    $titre.text('Synthése de la presse du Quinté du ' + synth['dateCourse'] + ' - ' + synth['hippo'] + ' - ' + synth['nomCourse']);
+                                }
+
+                                block += '<tr>\n' +
+                                    '                <th>' + synth['posPresse'] + '</th>\n' +
+                                    '                <th>' + synth['numCheval'] + '</th>\n' +
+                                    '                <th>' + synth['place'] + '</th>\n' +
+                                    '                <th>' + synth['cote'] + '</th>\n' +
+                                    '                <th><a class="text-info" href="./' + synth['dateCourse'] + '/edit" class="text-info"><i class="fas fa-edit"></i></a></th>\n' +
+                                    '            </tr>';
+                            }
+
+                            if(block === ""){
+                                $("#r-course").show();
+                                $('#ligne-synth').hide();
+                                $('#titre').hide();
+                            }
+                            else {
+                                $('#ligne-synth').show();
+                                $("#r-course").hide();
+                                $('#titre').show();
+                            }
+                            $blockSynth.append(block);
+                        }
+                    });
+                }
+            })
+        });
+    </script>
+{% endblock %}

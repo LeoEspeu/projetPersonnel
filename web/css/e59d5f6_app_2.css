@@ -1,11 +1,8 @@
-form input[type=text]{
-    width: 50%;
+form{
+    padding-left: 25%;
+    padding-right: 25%;
 }
 
-form input[type=password]{
-    width: 50%;
-}
-
-form input[type=email]{
-    width: 50%;
+input[type="number"] {
+    width: 100px;
 }

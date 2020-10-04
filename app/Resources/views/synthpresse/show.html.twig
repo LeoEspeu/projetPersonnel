@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Synthpresse</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Datecourse</th>
+                <td>{{ synthPresse.dateCourse }}</td>
+            </tr>
+            <tr>
+                <th>Pospresse</th>
+                <td>{{ synthPresse.posPresse }}</td>
+            </tr>
+            <tr>
+                <th>Numcourse</th>
+                <td>{{ synthPresse.numcourse }}</td>
+            </tr>
+            <tr>
+                <th>Hippo</th>
+                <td>{{ synthPresse.hippo }}</td>
+            </tr>
+            <tr>
+                <th>Nomcourse</th>
+                <td>{{ synthPresse.nomCourse }}</td>
+            </tr>
+            <tr>
+                <th>Numcheval</th>
+                <td>{{ synthPresse.numCheval }}</td>
+            </tr>
+            <tr>
+                <th>Place</th>
+                <td>{{ synthPresse.place }}</td>
+            </tr>
+            <tr>
+                <th>Cote</th>
+                <td>{{ synthPresse.cote }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('synthpresse_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('synthpresse_edit', { 'dateCourse': synthPresse.dateCourse }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

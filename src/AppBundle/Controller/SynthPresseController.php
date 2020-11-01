@@ -31,7 +31,7 @@ class SynthPresseController extends Controller
 
         $currentDay = new \DateTime();
 
-        $synthPresses = $em->getRepository('AppBundle:SynthPresse')->synthByJour($dateSynthSession != '' ? $dateSynthSession : $currentDay->format('Y-m-d'));
+        $synthPresses = $this->container->get('synthpresse.manager')->storeSynthPresse($dateSynthSession != '' ? $dateSynthSession : $currentDay->format('Y-m-d'));
 
         $titreQuinte = '';
         if(count($synthPresses)){
@@ -82,10 +82,7 @@ class SynthPresseController extends Controller
         {
             $currentDay = new \DateTime($request->get('date',null));
             $synths = array();
-            $synthJour = $this
-                ->getDoctrine()
-                ->getRepository('AppBundle:SynthPresse')
-                ->synthByJour($currentDay->format('Y-m-d'));
+            $synthJour = $this->container->get('synthpresse.manager')->storeSynthPresse($currentDay->format('Y-m-d'));
             foreach ($synthJour as $synth) {
                 array_push($synths, array('dateCourse'=> $synth->getDateCourse(),'posPresse'=>$synth->getPosPresse(),'hippo'=>$synth->getHippo(),'nomCourse'=>$synth->getNomCourse(),'numCheval'=>$synth->getNumCheval(),'place'=>$synth->getPlace(),'cote'=>$synth->getCote()));
             }

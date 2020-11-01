@@ -2,16 +2,22 @@
 {% set constReun = "" %}
 {% set id = 1 %}
 {% block body %}
+    <div class="container form-check">
+        <input class="form-check-input" type="checkbox" value="" id="chkshowraceetr">
+        <label class="form-check-label" for="defaultCheck1">
+            Afficher les courses étrangères
+        </label>
+    </div>
     <div class="container" id="reuns">
         {% for reunion in reunions %}
             {% if constReun != reunion.reun %}
-                <h3 class="text-left">
+                <h3 class="text-left {% if reunion.hippo != null and reunion.hippo.pays != null and reunion.hippo.pays.pays != 'France' %}raceetr{% endif %}">
                     {% if reunion.reun matches '/^\\d+$/' %}R{{ reunion.reun }} {{ reunion.hippo }}
                     {% else %}
                         {{ reunion.reun }}
                     {% endif %}
                 </h3>
-                <table class="table table-bordered">
+                <table class="table table-bordered {% if reunion.hippo != null and reunion.hippo.pays != null and reunion.hippo.pays.pays != 'France' %}raceetr{% endif %}">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -49,7 +55,20 @@
     {{ parent() }}
     <script>
         $(document).ready(function() {
+            $('.raceetr').hide();
+
             var $dateReunion = $('#date-reunion');
+            var $chkshowraceetr = $('#chkshowraceetr');
+            $dateReunion.val("{{ currentDate }}");
+            $('#date-choisi').text("{{ currentDate }}");
+
+            $chkshowraceetr.on('change',function (){
+                if( $(this).is(':checked') ){
+                    $('.raceetr').show();
+                } else {
+                    $('.raceetr').hide();
+                }
+            });
 
             $dateReunion.on('change',function () {
                 if($(this).val()){
@@ -73,6 +92,7 @@
                                 var reun = json[key];
                                 if(reun['reun'] !== constReun){
                                     var nomReun = "";
+                                    var raceetr = '';
                                     var reg = new RegExp(/^\d+$/);
                                     if(reg.test(reun['reun'])){
                                         nomReun += 'R' + reun['reun'] + ' ' + reun['hippo'];
@@ -80,10 +100,14 @@
                                     else {
                                         nomReun = reun['reun'];
                                     }
-                                    block += '<h3 class="text-left">\n' +
+
+                                    if(reun['paysHippo'] != 'France'){
+                                        raceetr = ' raceetr';
+                                    }
+                                    block += '<h3 class="text-left' + raceetr + '">\n' +
                                         nomReun +
                                     '                </h3>\n' +
-                                    '                <table class="table table-bordered">\n' +
+                                    '                <table class="table table-bordered' + raceetr + '">\n' +
                                     '                <thead>\n' +
                                     '                <tr>\n' +
                                     '                    <th>#</th>\n' +
@@ -121,6 +145,11 @@
                                 block = "<h3 class='text-center'>Aucune réunion à cette date<h3>"
                             }
                             $blockReuns.append(block);
+                            if( $chkshowraceetr.is(':checked') ){
+                                $('.raceetr').show();
+                            } else {
+                                $('.raceetr').hide();
+                            }
                         }
                     });
                 }

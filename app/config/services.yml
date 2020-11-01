@@ -41,3 +41,8 @@ services:
 
     course.manager:
         class: AppBundle\Manager\CourseManager
+
+    synthpresse.manager:
+        class: AppBundle\Manager\SynthPresseManager
+        arguments:
+            - "@course.manager"

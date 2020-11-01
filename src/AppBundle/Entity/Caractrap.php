@@ -43,9 +43,10 @@ class Caractrap
     private $heure;
 
     /**
-     * @var string|null
+     * @var Hippo
      *
-     * @ORM\Column(name="hippo", type="string", length=255, nullable=true)
+     * @ORM\ManyToOne (targetEntity="AppBundle\Entity\Hippo")
+     * @ORM\JoinColumn(name="hippo", nullable=true,referencedColumnName="hippo")
      */
     private $hippo;
 
@@ -357,29 +358,6 @@ class Caractrap
         return $this->heure;
     }
 
-    /**
-     * Set hippo.
-     *
-     * @param string|null $hippo
-     *
-     * @return Caractrap
-     */
-    public function setHippo($hippo = null)
-    {
-        $this->hippo = $hippo;
-
-        return $this;
-    }
-
-    /**
-     * Get hippo.
-     *
-     * @return string|null
-     */
-    public function getHippo()
-    {
-        return $this->hippo;
-    }
 
     /**
      * Set reun.
@@ -1147,5 +1125,29 @@ class Caractrap
     public function getCreatedat()
     {
         return $this->createdat;
+    }
+
+    /**
+     * Set hippo.
+     *
+     * @param \AppBundle\Entity\Hippo|null $hippo
+     *
+     * @return Caractrap
+     */
+    public function setHippo(\AppBundle\Entity\Hippo $hippo = null)
+    {
+        $this->hippo = $hippo;
+
+        return $this;
+    }
+
+    /**
+     * Get hippo.
+     *
+     * @return \AppBundle\Entity\Hippo|null
+     */
+    public function getHippo()
+    {
+        return $this->hippo;
     }
 }

@@ -21,4 +21,18 @@ class CaractrapRepository extends EntityRepository
             ->setParameter('j',$jour);
         return $reuns->getQuery()->getResult();
     }
+
+    /**
+     * @param $jour
+     * @return int|mixed|string
+     */
+    public function getQuinteByJour($jour)
+    {
+        $quinte = $this->createQueryBuilder('c')
+            ->addSelect('c')
+            ->where('c.jour = :j')
+            ->andWhere('c.quinte = 1')
+            ->setParameter('j',$jour);
+        return $quinte->getQuery()->getResult();
+    }
 }

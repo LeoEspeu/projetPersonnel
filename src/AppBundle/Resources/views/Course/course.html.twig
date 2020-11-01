@@ -136,7 +136,7 @@
                 $.ajax({
                     url:"{{ path('courseAjx') }}",
                     type: 'get',
-                    data: "id=" + {{ course.id }},
+                    data: "id=" + {{ course.comp }},
                     dataType: 'json',
                     contentType:'application/json; charset=utf-8',
                     error:function(req, err){

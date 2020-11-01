@@ -82,8 +82,8 @@
                                 block += '<tr>\n' +
                                     '                <th>' + synth['posPresse'] + '</th>\n' +
                                     '                <th>' + synth['numCheval'] + '</th>\n' +
-                                    '                <th>' + synth['place'] + '</th>\n' +
-                                    '                <th>' + synth['cote'] + '</th>\n' +
+                                    '                <th>' + (synth['place'] != null ? synth['place'] : '') + '</th>\n' +
+                                    '                <th>' + (synth['cote'] != null ? synth['cote'] : '') + '</th>\n' +
                                     '                <th><a class="text-info" href="./' + synth['dateCourse'] + '/edit" class="text-info"><i class="fas fa-edit"></i></a></th>\n' +
                                     '            </tr>';
                             }

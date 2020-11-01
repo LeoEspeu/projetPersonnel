@@ -22,7 +22,7 @@ class CourseController extends Controller
      */
     public function indexAction(Caractrap $reunion)
     {
-        $clCourse = $this->container->get('course.manager')->clCourseOrdonnee($reunion->getId());
+        $clCourse = $this->container->get('course.manager')->clCourseOrdonnee($reunion->getComp());
 
         return $this->render("AppBundle:Course:course.html.twig", array(
             'course' => $reunion,

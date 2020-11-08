@@ -65,6 +65,7 @@ class SynthPresse
      * @var string|null
      *
      * @ORM\Column(name="place", type="string", length=3, nullable=true)
+     * @Assert\Length(min=1,max=6)
      */
     private $place;
 

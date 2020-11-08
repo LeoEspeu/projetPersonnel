@@ -46,7 +46,7 @@ class SynthPresseManager
                 if(!$synthPresses[0]->getPlace() && $clQuinte[0]->getCl()){
                     foreach ($synthPresses as $synth) {
                         foreach ($clQuinte as $key => $cl) {
-                            if(intval($cl->getNumero()) == $synth->getNumCheval())
+                            if(intval($cl->getNumero()) == $synth->getNumCheval() && !$synth->getPlace())
                             {
                                 $synth->setPlace(preg_match('~[0-9]~', $cl->getCl()) ? $key + 1 : null);
                             }

@@ -2,13 +2,14 @@
 {% set constReun = "" %}
 {% set id = 1 %}
 {% block body %}
-    <div class="container form-check">
+    <div class="container form-check cs-chkshowraceetr">
         <input class="form-check-input" type="checkbox" value="" id="chkshowraceetr">
         <label class="form-check-label" for="defaultCheck1">
             Afficher les courses étrangères
         </label>
     </div>
     <div class="container" id="reuns">
+        {% if  reunions|length > 0 %}
         {% for reunion in reunions %}
             {% if constReun != reunion.reun %}
                 <h3 class="text-left {% if reunion.hippo != null and reunion.hippo.pays != null and reunion.hippo.pays.pays != 'France' %}raceetr{% endif %}">
@@ -33,11 +34,13 @@
             {% endif %}
             <tr>
                 <th>{{ id }}</th>
-                <th>{{ reunion.prixnom }} {% if reunion.quinte == 1 %}<span style="color: #d58512">Q+</span>{% endif %}</th>
+                <th>{{ reunion.prixnom }} {% if reunion.quinte == 1 %}<span style="color: #d58512">Q+</span>{% endif %}
+                </th>
                 <th>{{ reunion.prix }}</th>
                 <th>{{ reunion.typec }}</th>
                 <th>{{ reunion.cheque }}</th>
-                <th class="text-center"><a href="{{ path('CourseIndex',{'reunion':reunion.id}) }}" class="text-info"><i class="fas fa-info-circle"></i></a></th>
+                <th class="text-center"><a href="{{ path('CourseIndex',{'reunion':reunion.id}) }}" class="text-info"><i
+                                class="fas fa-info-circle"></i></a></th>
             </tr>
             {% set id = id +1 %}
             {% if loop.index == reunions|length %}
@@ -49,6 +52,9 @@
                 </table>
             {% endif %}
         {% endfor %}
+        {% else %}
+        <h3 class='text-center'>Aucune réunion à cette date<h3>
+                {% endif %}
     </div>
 {% endblock %}
 {% block javascripts %}
@@ -59,6 +65,12 @@
 
             var $dateReunion = $('#date-reunion');
             var $chkshowraceetr = $('#chkshowraceetr');
+
+            if(!$('table').length)
+            {
+                $('.cs-chkshowraceetr').hide();
+            }
+
             $dateReunion.val("{{ currentDate }}");
             $('#date-choisi').text("{{ currentDate }}");
 
@@ -142,7 +154,11 @@
                             }
 
                             if(block === ""){
-                                block = "<h3 class='text-center'>Aucune réunion à cette date<h3>"
+                                block = "<h3 class='text-center'>Aucune réunion à cette date<h3>";
+                                $('.cs-chkshowraceetr').hide();
+                            }
+                            else {
+                                $('.cs-chkshowraceetr').show();
                             }
                             $blockReuns.append(block);
                             if( $chkshowraceetr.is(':checked') ){

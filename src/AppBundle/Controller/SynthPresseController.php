@@ -48,7 +48,7 @@ class SynthPresseController extends Controller
     /**
      * Displays a form to edit an existing synthPresse entity.
      *
-     * @Route("/{dateCourse}/edit", name="synthpresse_edit")
+     * @Route("/{dateCourse}/{posPresse}/{numcourse}/edit", name="synthpresse_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, SynthPresse $synthPresse)
@@ -84,7 +84,7 @@ class SynthPresseController extends Controller
             $synths = array();
             $synthJour = $this->container->get('synthpresse.manager')->storeSynthPresse($currentDay->format('Y-m-d'));
             foreach ($synthJour as $synth) {
-                array_push($synths, array('dateCourse'=> $synth->getDateCourse(),'posPresse'=>$synth->getPosPresse(),'hippo'=>$synth->getHippo(),'nomCourse'=>$synth->getNomCourse(),'numCheval'=>$synth->getNumCheval(),'place'=>$synth->getPlace(),'cote'=>$synth->getCote()));
+                array_push($synths, array('dateCourse'=> $synth->getDateCourse(),'numCourse' => $synth->getNumcourse(),'posPresse'=>$synth->getPosPresse(),'hippo'=>$synth->getHippo(),'nomCourse'=>$synth->getNomCourse(),'numCheval'=>$synth->getNumCheval(),'place'=>$synth->getPlace(),'cote'=>$synth->getCote()));
             }
             $response->setStatusCode(200);
             $response->setContent(json_encode($synths));

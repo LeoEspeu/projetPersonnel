@@ -23,7 +23,16 @@ class SynthPresseType extends AbstractType
             'required' => true,
             'label' => 'Cote :',
             'attr' => array(
-                'min' => '1'
+                'min' => '1',
+                'max' => '999'
+            )
+        ));
+        $builder->add('posPresse',IntegerType::class,array(
+            'required' => true,
+            'label' => 'Position presse :',
+            'attr' => array(
+                'min' => '1',
+                'max' => '99'
             )
         ));
     }/**

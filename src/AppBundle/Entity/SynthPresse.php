@@ -25,9 +25,8 @@ class SynthPresse
     /**
      * @var int
      *
-     * @ORM\Column(name="pos_presse", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(name="pos_presse", type="integer", nullable=true)
+     * @Assert\Range(min=1,max=99)
      */
     private $posPresse;
 
@@ -58,6 +57,8 @@ class SynthPresse
      * @var int
      *
      * @ORM\Column(name="num_cheval", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     private $numCheval;
 
@@ -73,7 +74,7 @@ class SynthPresse
      * @var int|null
      *
      * @ORM\Column(name="cote", type="integer", nullable=true)
-     * @Assert\Range(min=1)
+     * @Assert\Range(min=1,max=999)
      */
     private $cote;
 

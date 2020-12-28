@@ -64,7 +64,7 @@ class SynthPresseManager
                 $synth->setNomCourse($quinte->getPrixnom());
                 $synth->setNumCheval(intval($cl->getNumero()));
                 $synth->setNumcourse(intval($cl->getNumcourse()));
-                $synth->setPosPresse($key + 1);
+                //$synth->setPosPresse($key + 1);
                 $synth->setPlace(preg_match('~[0-9]~', $cl->getCl()) ? $key + 1 : null);
 
 

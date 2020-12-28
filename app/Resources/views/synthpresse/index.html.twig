@@ -27,7 +27,7 @@
                     <td>{{ synthPresse.place }}</td>
                     <td>{{ synthPresse.cote }}</td>
                     <td>
-                        <a class="text-info" href="{{ path('synthpresse_edit', { 'dateCourse': synthPresse.dateCourse,'posPresse': synthPresse.posPresse,'numcourse': synthPresse.numcourse }) }}"><i class="fas fa-edit"></i></a>
+                        <a class="text-info" href="{{ path('synthpresse_edit', { 'dateCourse': synthPresse.dateCourse,'numCheval': synthPresse.numCheval,'numcourse': synthPresse.numcourse }) }}"><i class="fas fa-edit"></i></a>
                     </td>
                 </tr>
             {% endfor %}
@@ -80,11 +80,11 @@
                                 }
 
                                 block += '<tr>\n' +
-                                    '                <th>' + synth['posPresse'] + '</th>\n' +
+                                    '                <th>' + (synth['posPresse'] != null ? synth['posPresse'] : '') + '</th>\n' +
                                     '                <th>' + synth['numCheval'] + '</th>\n' +
                                     '                <th>' + (synth['place'] != null ? synth['place'] : '') + '</th>\n' +
                                     '                <th>' + (synth['cote'] != null ? synth['cote'] : '') + '</th>\n' +
-                                    '                <th><a class="text-info" href="./' + synth['dateCourse'] + '/' +synth['posPresse'] + '/' +synth['numCourse'] + '/edit" class="text-info"><i class="fas fa-edit"></i></a></th>\n' +
+                                    '                <th><a class="text-info" href="./' + synth['dateCourse'] + '/' +synth['numCheval'] + '/' +synth['numCourse'] + '/edit" class="text-info"><i class="fas fa-edit"></i></a></th>\n' +
                                     '            </tr>';
                             }
 

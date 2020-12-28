@@ -48,7 +48,7 @@ class SynthPresseController extends Controller
     /**
      * Displays a form to edit an existing synthPresse entity.
      *
-     * @Route("/{dateCourse}/{posPresse}/{numcourse}/edit", name="synthpresse_edit")
+     * @Route("/{dateCourse}/{numCheval}/{numcourse}/edit", name="synthpresse_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, SynthPresse $synthPresse)
